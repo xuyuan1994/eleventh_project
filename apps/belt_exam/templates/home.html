@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome: {{user.username}}</h1>
+    <a href="/logout">logout</a>
+    <a href="/wish_item/create">add item</a>
+    <h3>Your wishlist</h3>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Added by </th> 
+            <th>Date added </th>
+            <th>Action</th>
+        </tr>
+            {% for item in wishlist0 %}
+                <tr>
+                    
+                    <td><a href="/wish_item/{{item.id}}">{{item.name}}</a></td>
+                    <td>{{item.added_by}}</td> 
+                    <td>{{item.created_at}}</td>
+                    <td>
+                        {% if item.added_by != user.username%}
+                            <a href="/remove/{{item.id}}">Remove from my Wishlist</a>
+                        {% else %}
+                            <a href="/delete/{{item.id}}">Delete</a>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+            {% endfor %}
+    </table>
+    <h3>Other users' wishlist</h3>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Added by </th> 
+            <th>Date added </th>
+            <th>Action</th>
+        </tr>
+            {% for wishlist in wishlists %}
+                {% for item in wishlist.product.all%}
+                    <tr>
+                        
+                        <td><a href="/wish_item/{{item.id}}">{{item.name}}</a></td>
+                        <td>{{item.added_by}}</td> 
+                        <td>{{item.created_at}}</td>
+                        <td><a href="/add/{{item.id}}">Add to my wish list</a></td>
+                        
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+    </table>
+</body>
+</html>
